@@ -1,0 +1,23 @@
+{
+  "cookie": "",
+  "downloadDir": "./downloads",
+  "stateFile": "./state.json",
+  "pollIntervalMinutes": 1,
+  "pageSize": 50,
+  "requestBody": {
+    "text": "",
+    "flag": 2,
+    "show_type": 0,
+    "activity_start_time": "",
+    "activity_end_time": "",
+    "id": "",
+    "type": "",
+    "order": "desc",
+    "country_type": [],
+    "file_type": 0,
+    "filter_hospital_id": "",
+    "filter_user_id": "",
+    "is_my_dep": 0,
+    "is_domestic": 1
+  }
+}
