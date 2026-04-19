@@ -27,3 +27,17 @@
    ```
 
 下载的文件会自动按分类整理到 `downloads/` 文件夹下。
+
+## 如何获取 PHPSESSID
+
+1. 打开 **Proxyman**，确保 SSL 解密已开启
+2. 打开钉钉，进入「随心拍素材库」小程序，随便滚动一下列表
+3. 在 Proxyman 里找到 `xinzhi.aimei.group` 的请求
+4. 点击那个请求 → 看 **Request Headers** → 找 `Cookie` 字段
+5. 复制 `PHPSESSID=xxxxxx` 里的值
+
+然后更新本地的 `.env` 文件：
+
+```
+PHPSESSID=你复制的新值
+```
