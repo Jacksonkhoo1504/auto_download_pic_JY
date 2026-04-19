@@ -30,11 +30,15 @@
 
 ## 如何获取 PHPSESSID
 
+> 需要先安装 [Proxyman](https://proxyman.io/download)（网络抓包工具）
+
 1. 打开 **Proxyman**，确保 SSL 解密已开启
 2. 打开钉钉，进入「随心拍素材库」小程序，随便滚动一下列表
 3. 在 Proxyman 里找到 `xinzhi.aimei.group` 的请求
-4. 点击那个请求 → 看 **Request Headers** → 找 `Cookie` 字段
-5. 复制 `PHPSESSID=xxxxxx` 里的值
+4. 点击那个请求 → 切换到 **Cookies** 标签
+5. 复制 `PHPSESSID` 对应的值
+
+![Proxyman 截图 - 找到 PHPSESSID](proxyman-cookie.png)
 
 然后更新本地的 `.env` 文件：
 
