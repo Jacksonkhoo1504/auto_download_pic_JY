@@ -4,8 +4,18 @@
 
 ## 前置要求
 
-- 安装 [Node.js](https://nodejs.org)（仅需 Node.js，不需要 Cursor 或任何编辑器）
-- 无需 `npm install`，脚本只使用 Node.js 内建模块
+### 安装 Node.js
+
+1. 打开 [https://nodejs.org](https://nodejs.org)
+2. 点击 **LTS** 版本下载（推荐稳定版）
+3. 打开下载的安装包，一路点 Continue / Install 完成安装
+4. 打开 Terminal，输入以下命令确认安装成功：
+   ```bash
+   node -v
+   ```
+   看到版本号（如 `v20.x.x`）即表示安装成功。
+
+> 仅需 Node.js，不需要 Cursor 或任何编辑器。无需 `npm install`，脚本只使用 Node.js 内建模块。
 
 ## 快速开始
 
