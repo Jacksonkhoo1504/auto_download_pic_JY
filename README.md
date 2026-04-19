@@ -1,28 +1,27 @@
 # 随心拍素材库 自动下载脚本
 
-推送了以下文件（cookie 和下载内容都不在里面）：
+自动检测随心拍素材库的新图片/视频，下载到本地并按分类整理好文件夹。
 
-- `downloader.js` — 主脚本
-- `config.json` — 配置（cookie 字段留空）
-- `package.json`
-- `.gitignore` — 排除了 `.env`、`downloads/`、`state.json`
+## 前置要求
 
-以后换电脑或分享给别人用，只需要新建 `.env` 填入自己的 `PHPSESSID` 即可。
+- 安装 [Node.js](https://nodejs.org)（仅需 Node.js，不需要 Cursor 或任何编辑器）
+- 无需 `npm install`，脚本只使用 Node.js 内建模块
 
-## 使用方法
+## 快速开始
 
-1. 新建 `.env` 文件，填入你的 session cookie：
+1. 下载仓库里的 `downloader.js`、`config.json`、`package.json` 三个文件到同一个文件夹
+
+2. 在同一个文件夹新建 `.env` 文件，填入你的 session cookie：
    ```
    PHPSESSID=你的PHPSESSID值
    ```
 
-2. 执行一次（下载所有新文件）：
+3. 打开 Terminal，进入该文件夹，执行：
    ```bash
+   # 执行一次（下载所有新文件）
    node downloader.js
-   ```
 
-3. 持续监控模式（每 N 分钟自动检查）：
-   ```bash
+   # 持续监控模式（每 N 分钟自动检查新文件）
    node downloader.js --watch
    ```
 
@@ -45,3 +44,13 @@
 ```
 PHPSESSID=你复制的新值
 ```
+
+> Session 过期后脚本会提示 `⚠️ Session 已过期`，重新抓一次 Proxyman 更新 `.env` 即可，已下载的文件不会重复下载。
+
+## 文件说明
+
+- `downloader.js` — 主脚本
+- `config.json` — 配置（轮询间隔、下载目录等）
+- `.env` — 存放 PHPSESSID（不会上传到 GitHub）
+- `state.json` — 自动生成，记录已下载的文件 ID
+- `downloads/` — 自动生成，按分类整理的下载目录
