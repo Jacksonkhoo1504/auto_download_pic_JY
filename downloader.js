@@ -145,6 +145,9 @@ async function syncNewFiles() {
 
     for (const dateGroup of dateGroups) {
       for (const item of dateGroup.items) {
+        const itemName = item.name || item.title || "";
+        if (!itemName.toLowerCase().includes("gold")) continue;
+
         const category = sanitizeFolderName(item.material_category_name || "未分类");
         const uploader = sanitizeFolderName(item.user_name || "unknown");
 
