@@ -152,7 +152,8 @@ async function syncNewFiles() {
       if (json.code !== 0) {
         console.error("API 返回错误:", json.code, json.msg || "");
         if (json.code === 401 || json.code === 403) {
-          console.error("⚠️  Session 已过期，请更新 config.json 里的 cookie");
+          console.error("⚠️  Session 已过期，请更新 config.json 里的 cookie，然后重新运行脚本");
+          process.exit(1);
         }
       }
       break;
