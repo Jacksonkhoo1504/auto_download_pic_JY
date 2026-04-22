@@ -66,7 +66,11 @@ function downloadFile(url, destPath) {
   });
 }
 
-async function fetchPage(config, page) {
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function fetchPage(config, page, retries = 3) {
   const body = JSON.stringify({
     ...config.requestBody,
     page_size: config.pageSize,
@@ -93,22 +97,35 @@ async function fetchPage(config, page) {
     },
   };
 
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = "";
-      res.on("data", (chunk) => (data += chunk));
-      res.on("end", () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(new Error(`JSON parse failed: ${data.slice(0, 200)}`));
-        }
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+          let data = "";
+          res.on("data", (chunk) => (data += chunk));
+          res.on("end", () => {
+            try {
+              resolve(JSON.parse(data));
+            } catch (e) {
+              reject(new Error(`JSON parse failed: ${data.slice(0, 200)}`));
+            }
+          });
+        });
+        req.on("error", reject);
+        req.write(body);
+        req.end();
       });
-    });
-    req.on("error", reject);
-    req.write(body);
-    req.end();
-  });
+      return result;
+    } catch (err) {
+      if (attempt < retries) {
+        const wait = attempt * 5000;
+        console.warn(`  ⚠ 第 ${page} 页请求失败，${wait / 1000}s 后重试 (${attempt}/${retries}): ${err.message}`);
+        await sleep(wait);
+      } else {
+        throw err;
+      }
+    }
+  }
 }
 
 async function syncNewFiles() {
@@ -145,9 +162,6 @@ async function syncNewFiles() {
 
     for (const dateGroup of dateGroups) {
       for (const item of dateGroup.items) {
-        const itemName = item.name || item.title || "";
-        if (!itemName.toLowerCase().includes("gold")) continue;
-
         const category = sanitizeFolderName(item.material_category_name || "未分类");
         const uploader = sanitizeFolderName(item.user_name || "unknown");
 
@@ -179,6 +193,7 @@ async function syncNewFiles() {
     const fetchedSoFar = page * config.pageSize;
     if (fetchedSoFar >= totalItems || stopPaging) break;
     page++;
+    await sleep(2000);
   }
 
   state.downloadedIds = [...downloadedIds];

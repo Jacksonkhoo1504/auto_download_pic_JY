@@ -2,10 +2,10 @@
   "cookie": "",
   "downloadDir": "./downloads",
   "stateFile": "./state.json",
-  "pollIntervalMinutes": 1,
+  "pollIntervalMinutes": 10,
   "pageSize": 50,
   "requestBody": {
-    "text": "",
+    "text": "gold",
     "flag": 2,
     "show_type": 0,
     "activity_start_time": "",
